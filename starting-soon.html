@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1280">
+<title>Tequila_Apple – Starting Soon</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --amber:    #C97B2E;
+    --gold:     #E8A84A;
+    --cream:    #F5EDD8;
+    --sage:     #7A9E7E;
+    --sage-lt:  #A8C5A0;
+    --bark:     #3B2A1A;
+    --fog:      #EDE4CF;
+    --warm-mid: #B08A5A;
+  }
+
+  html, body {
+    width: 1280px;
+    height: 720px;
+    overflow: hidden;
+    background: var(--bark);
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* --- layered background --- */
+  .bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 20% 80%, rgba(201,123,46,.28) 0%, transparent 65%),
+      radial-gradient(ellipse 55% 50% at 85% 15%, rgba(122,158,126,.22) 0%, transparent 60%),
+      radial-gradient(ellipse 90% 80% at 50% 50%, #2A1E10 0%, #1A1208 100%);
+  }
+
+  /* grain texture */
+  .grain {
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+    opacity: .55;
+    pointer-events: none;
+  }
+
+  /* floating lofi dust particles */
+  .particles {
+    position: absolute; inset: 0; overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--gold);
+    opacity: 0;
+    animation: drift linear infinite;
+  }
+  @keyframes drift {
+    0%   { opacity: 0; transform: translateY(0) scale(1); }
+    10%  { opacity: .25; }
+    90%  { opacity: .1; }
+    100% { opacity: 0; transform: translateY(-680px) scale(.4); }
+  }
+
+  /* cassette tape decorative icon (SVG inline) */
+  .cassette-wrap {
+    position: absolute;
+    top: 52px; right: 68px;
+    opacity: .18;
+    animation: bobble 6s ease-in-out infinite;
+  }
+  @keyframes bobble {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-8px); }
+  }
+
+  /* --- card --- */
+  .card {
+    position: absolute;
+    left: 90px; top: 50%;
+    transform: translateY(-50%);
+    width: 560px;
+  }
+
+  .eyebrow {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 18px;
+  }
+  .eyebrow-line {
+    width: 32px; height: 2px;
+    background: var(--gold);
+    border-radius: 2px;
+  }
+  .eyebrow-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 72px;
+    font-weight: 600;
+    line-height: .95;
+    color: var(--cream);
+    margin-bottom: 6px;
+  }
+  .brand em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .tagline {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: .06em;
+    color: var(--sage-lt);
+    margin-top: 18px;
+    margin-bottom: 36px;
+  }
+
+  /* countdown */
+  .countdown-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--warm-mid);
+    margin-bottom: 10px;
+  }
+  .countdown {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 400;
+    color: var(--cream);
+    letter-spacing: .04em;
+  }
+  #countdown-timer { color: var(--gold); }
+
+  /* social pill */
+  .social-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 36px;
+    padding: 8px 18px;
+    border: 1px solid rgba(232,168,74,.25);
+    border-radius: 100px;
+    background: rgba(232,168,74,.07);
+  }
+  .social-pill svg { opacity: .7; }
+  .social-pill span {
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: .04em;
+    color: var(--fog);
+  }
+
+  /* --- right panel: vinyl record --- */
+  .vinyl-wrap {
+    position: absolute;
+    right: 100px; top: 50%;
+    transform: translateY(-50%);
+    width: 300px; height: 300px;
+  }
+  .vinyl {
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 50% 50%, #2E2010 0%, #1A1208 28%, #3B2A1A 30%, #1A1208 32%, #3B2A1A 50%, #1A1208 52%, #2E2010 72%, #1A1208 74%, #2E2010 100%);
+    box-shadow:
+      0 0 0 2px rgba(232,168,74,.15),
+      0 0 60px rgba(201,123,46,.2),
+      0 20px 60px rgba(0,0,0,.6);
+    animation: spin 12s linear infinite;
+    position: relative;
+  }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  .vinyl-label {
+    position: absolute;
+    inset: 32%;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--amber) 0%, #8B5520 100%);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,.4);
+  }
+  .vinyl-label-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    color: var(--cream);
+    text-align: center;
+    line-height: 1.3;
+  }
+  .vinyl-hole {
+    position: absolute;
+    inset: calc(50% - 6px);
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: #0E0A05;
+  }
+
+  /* glowing ring around vinyl */
+  .vinyl-glow {
+    position: absolute; inset: -20px;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: 0 0 80px 20px rgba(201,123,46,.12);
+    pointer-events: none;
+  }
+
+  /* bottom ticker */
+  .ticker {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 36px;
+    background: rgba(201,123,46,.12);
+    border-top: 1px solid rgba(232,168,74,.18);
+    display: flex; align-items: center;
+    overflow: hidden;
+  }
+  .ticker-label {
+    flex-shrink: 0;
+    padding: 0 20px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border-right: 1px solid rgba(232,168,74,.2);
+    height: 100%;
+    display: flex; align-items: center;
+  }
+  .ticker-track {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    display: flex; align-items: center;
+  }
+  .ticker-content {
+    display: flex; gap: 48px;
+    white-space: nowrap;
+    animation: scroll-left 28s linear infinite;
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: .08em;
+    color: var(--fog);
+  }
+  .ticker-content span::before { content: '✦  '; color: var(--gold); font-size: 8px; }
+  @keyframes scroll-left {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="grain"></div>
+
+<!-- particles -->
+<div class="particles" id="particles"></div>
+
+<!-- cassette decoration -->
+<div class="cassette-wrap">
+  <svg width="120" height="80" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="4" y="4" width="112" height="72" rx="8" stroke="#E8A84A" stroke-width="2"/>
+    <circle cx="36" cy="40" r="14" stroke="#E8A84A" stroke-width="1.5"/>
+    <circle cx="84" cy="40" r="14" stroke="#E8A84A" stroke-width="1.5"/>
+    <circle cx="36" cy="40" r="5" fill="#E8A84A" opacity=".5"/>
+    <circle cx="84" cy="40" r="5" fill="#E8A84A" opacity=".5"/>
+    <path d="M50 54 Q60 60 70 54" stroke="#E8A84A" stroke-width="1.5" fill="none"/>
+    <rect x="48" y="28" width="24" height="24" rx="2" stroke="#E8A84A" stroke-width="1"/>
+  </svg>
+</div>
+
+<!-- main card -->
+<div class="card">
+  <div class="eyebrow">
+    <div class="eyebrow-line"></div>
+    <span class="eyebrow-text">live soon</span>
+  </div>
+
+  <div class="brand">Tequila<br><em>Apple</em></div>
+
+  <p class="tagline">Grab a drink. Stream kicks off shortly.</p>
+
+  <div class="countdown-label">Starting in</div>
+  <div class="countdown"><span id="countdown-timer">05:00</span></div>
+
+  <div class="social-pill">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E8A84A" stroke-width="2">
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+    </svg>
+    <span>@Tequila_Apple · TikTok LIVE</span>
+  </div>
+</div>
+
+<!-- vinyl record -->
+<div class="vinyl-wrap">
+  <div class="vinyl-glow"></div>
+  <div class="vinyl">
+    <div class="vinyl-label">
+      <span class="vinyl-label-name">TEQUILA<br>APPLE</span>
+      <div class="vinyl-hole"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ticker -->
+<div class="ticker">
+  <div class="ticker-label">Now Playing</div>
+  <div class="ticker-track">
+    <div class="ticker-content">
+      <span>Apex Legends</span>
+      <span>Call of Duty</span>
+      <span>Dave the Diver</span>
+      <span>Elden Ring</span>
+      <span>Red Alert</span>
+      <span>Chilling &amp; Vibing</span>
+      <span>Follow for more</span>
+      <span>Apex Legends</span>
+      <span>Call of Duty</span>
+      <span>Dave the Diver</span>
+      <span>Elden Ring</span>
+      <span>Red Alert</span>
+      <span>Chilling &amp; Vibing</span>
+      <span>Follow for more</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  // particles
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 3 + 1;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      bottom:${Math.random()*20}%;
+      animation-duration:${Math.random()*12+8}s;
+      animation-delay:${Math.random()*10}s;
+    `;
+    container.appendChild(p);
+  }
+
+  // countdown (5 min)
+  let total = 5 * 60;
+  const el = document.getElementById('countdown-timer');
+  function tick() {
+    if (total <= 0) { el.textContent = 'LIVE'; return; }
+    const m = String(Math.floor(total/60)).padStart(2,'0');
+    const s = String(total % 60).padStart(2,'0');
+    el.textContent = `${m}:${s}`;
+    total--;
+  }
+  tick();
+  setInterval(tick, 1000);
+</script>
+</body>
+</html>
